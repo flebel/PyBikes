@@ -67,7 +67,7 @@ class SmooveAPI(Smoove):
         data = json.loads(scraper.request(self.feed_url))
         stations = []
         for s in data['result']:
-            lat, lng = map(float, s['coordinates'].split(','))
+            lat, lng = list(map(float, s['coordinates'].split(',')))
             name = s['name']
             bikes = int(s['avl_bikes'])
             free = int(s['free_slots'])

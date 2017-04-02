@@ -3,7 +3,7 @@
 # Distributed under the LGPL license, see LICENSE.txt
 
 import re
-import HTMLParser
+import html.parser
 
 from .base import BikeShareSystem, BikeShareStation
 from . import utils
@@ -44,7 +44,7 @@ class BicincittaOld(BaseSystem):
         scraper.setUserAgent(BicincittaOld._useragent)
 
         data = scraper.request(self.url)
-        data = HTMLParser.HTMLParser().unescape(data)
+        data = html.parser.HTMLParser().unescape(data)
 
         raw_lat   = re.findall(BicincittaOld._RE_INFO_LAT_CORD,data);
         raw_lng   = re.findall(BicincittaOld._RE_INFO_LNG_CORD,data);
@@ -81,10 +81,7 @@ class Bicincitta(BaseSystem):
             self.system_id = instance['system_id']
             self.url = [endpoint.format(id=self.system_id)]
         elif 'comunes' in instance:
-            self.url = map(
-                lambda comune: endpoint.format(id=comune['id']),
-                instance['comunes']
-            )
+            self.url = [endpoint.format(id=comune['id']) for comune in instance['comunes']]
         else:
             self.url = [endpoint]
 
@@ -101,7 +98,7 @@ class Bicincitta(BaseSystem):
         data = scraper.request(url)
         raw = re.findall(Bicincitta._RE_INFO, data)
         info = raw[0].split('\',\'')
-        info = map(lambda chunk: chunk.split('|'), info)
+        info = [chunk.split('|') for chunk in info]
         # Yes, this is a joke
         return [BicincittaStation(name, desc, float(lat), float(lng),
                 stat.count('4'), stat.count('0')) for name, desc, lat, lng,

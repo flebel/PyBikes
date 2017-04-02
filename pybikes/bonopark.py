@@ -44,7 +44,7 @@ class Bonopark(BikeShareSystem):
             scraper.request(self.feed_url, 'POST', data=json.dumps(BODY_DICT))
         )
 
-        self.stations = map(BonoparkStation, data['estaciones'])
+        self.stations = list(map(BonoparkStation, data['estaciones']))
 
 
 class BonoparkStation(BikeShareStation):
