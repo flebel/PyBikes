@@ -8,9 +8,10 @@ import hashlib
 from .base import BikeShareSystem, BikeShareStation
 from . import utils
 
-SECRET = 'APP_INICIO'.encode('utf-8')
-ID_SECURITY = '{}{}'.format(hashlib.md5(SECRET * 2).hexdigest(),
-                            hashlib.md5(SECRET).hexdigest())
+SECRET = 'APP_INICIO'
+SECRET_UTF8 = SECRET.encode('utf-8')
+ID_SECURITY = '{}{}'.format(hashlib.md5(SECRET_UTF8 * 2).hexdigest(),
+                            hashlib.md5(SECRET_UTF8).hexdigest())
 BODY_DICT = {
     'dni': SECRET,
     'id_auth': SECRET,
