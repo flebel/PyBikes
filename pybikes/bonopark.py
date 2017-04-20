@@ -8,7 +8,7 @@ import hashlib
 from .base import BikeShareSystem, BikeShareStation
 from . import utils
 
-SECRET = 'APP_INICIO'
+SECRET = 'APP_INICIO'.encode('utf-8')
 ID_SECURITY = '{}{}'.format(hashlib.md5(SECRET * 2).hexdigest(),
                             hashlib.md5(SECRET).hexdigest())
 BODY_DICT = {
