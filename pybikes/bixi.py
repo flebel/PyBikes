@@ -60,7 +60,7 @@ def get_json_stations(self, scraper):
     return stations
 
 def get_json_xml_stations(self, scraper):
-    raw = scraper.request(self.feed_url).decode('unicode-escape')
+    raw = scraper.request(self.feed_url)
     data = json.loads(raw)
     return list(map(BixiStation.from_json_xml, data))
 
